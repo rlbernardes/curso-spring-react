@@ -1,5 +1,6 @@
 package com.lima.minhasFinancas.model.entity;
 
+import com.lima.minhasFinancas.api.dto.LancamentoDTO;
 import com.lima.minhasFinancas.model.enums.StatusLancamento;
 import com.lima.minhasFinancas.model.enums.TipoLancamento;
 import jakarta.persistence.*;
