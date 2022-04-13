@@ -26,6 +26,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -109,7 +112,6 @@ class UsuarioControllerTest {
     @Test
     void deveRetornarBadRequestAoTentarCriarUmNovoUsuarioInvalido() throws Exception {
         UsuarioDTO dto = UsuarioTestHelper.criarUsuarioDto();
-        Usuario usuario = UsuarioTestHelper.criarUsuario();
 
         Mockito.when(service.salvarUsuario(Mockito.any(Usuario.class))).thenThrow(RegraNegocioException.class);
 
@@ -126,6 +128,19 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void deveObterSaldo() {
+    void deveObterSaldo() throws Exception {
+        Usuario usuario = UsuarioTestHelper.criarUsuarioComId();
+
+        Mockito.when(service.obterPorId(usuario.getId())).thenReturn(Optional.of(usuario));
+
+        Mockito.when(lancamentoService.obterSaldoPorUsuario(usuario.getId())).thenReturn(BigDecimal.valueOf(5));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get(API.concat("/1/saldo"))
+                .accept(JSON_MEDIA_TYPE)
+                .contentType(JSON_MEDIA_TYPE);
+
+        mvc.perform(request)
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

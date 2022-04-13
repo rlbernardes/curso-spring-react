@@ -15,6 +15,14 @@ public class UsuarioTestHelper {
                 .senha(SENHA)
                 .build();
     }
+    public static Usuario criarUsuarioComId(){
+        return Usuario.builder()
+                .id(1l)
+                .nome(NOME)
+                .email(EMAIL)
+                .senha(SENHA)
+                .build();
+    }
 
     public static UsuarioDTO criarUsuarioDto(){
         return UsuarioDTO.builder()
