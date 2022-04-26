@@ -85,6 +85,8 @@ public class LancamentoController {
             @RequestParam(value = "descricao", required = false) String descricao,
             @RequestParam(value = "mes", required = false) Integer mes,
             @RequestParam(value = "ano", required = false) Integer ano,
+            @RequestParam(value = "tipo", required = false) String tipo,
+            @RequestParam(value = "status", required = false) String status,
             @RequestParam("usuario") Long idUsuario
             ){
         Optional<Usuario> usuario = usuarioService.obterPorId(idUsuario);
@@ -97,6 +99,8 @@ public class LancamentoController {
                 .descricao(descricao)
                 .mes(mes)
                 .ano(ano)
+                .tipo(tipo != null ? TipoLancamento.valueOf(tipo) : null)
+                .status(status != null ? StatusLancamento.valueOf(status) : null)
                 .usuario(usuario.get())
                 .build();
         List<Lancamento> lancamentos = service.buscar(lancamentoFiltro);
